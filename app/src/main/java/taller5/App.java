@@ -25,7 +25,28 @@ public class App {
         
     
     */ 
+public static int Intentos_numeros(int numero){
+        try {
+            final int mil=1000, nueve_mil=9999, mil_uno=1001;
+            int aleatorio=0, contador=0;
 
+            if(numero >= mil && numero<= nueve_mil){
+
+                do {
+                    aleatorio= (int) (Math.random()*(nueve_mil-mil)+mil_uno);
+                    contador++;
+                    
+                } while (aleatorio != numero);
+                
+            } else
+                return 0;
+
+            return contador;
+
+        } catch (Exception e) {
+            return -1;
+        }
+    }
 
 
 
@@ -61,10 +82,37 @@ public class App {
         
       
     */
+public static String Simular_ventas(){
+        try {
+            final byte tres=3, doce=12;
+            double total=0;
+            double aleatorio=0;
+            String respuesta="", numero_decimal="", numero_total="";
 
+            for (byte ano=1; ano <= tres; ano++) {
+                respuesta += "Año " + ano + "\n";
+
+                for (byte mes=1; mes <=doce; mes ++) {
+                    DecimalFormat formato= new DecimalFormat("$##,###.###");
+                    aleatorio=(Math.random()*(99999-0)+1);
+                    numero_decimal= formato.format(aleatorio);
+
+                    respuesta += "Venta Mes "+ mes+ ": "+ numero_decimal+ "\n";
+
+                    total+= aleatorio;
+                    DecimalFormat nuevo= new DecimalFormat("$##,###.###");
+                    numero_total= nuevo.format(total);
+                    
+                }
+                respuesta+= "Total Ventas Año "+ ano+ ": " + numero_total+ "\n";
+            }
+
+            return respuesta;
+        } catch (Exception e) {
+            return "ERROR"+e;
+        }
+    }
     
-
-
 
     /*  
      
@@ -85,7 +133,44 @@ public class App {
 
 
     */
+public static String Calcular_empaque(int bombillas){
+        try {
+            int cajas_necesito=0, bom_sin_emp=0, contador=1;
+            double pallets_necesito=0, redondeo_pallets=0;
+            final int  treinta=30, dieciseis=16;
+            String resultado="";
 
+            cajas_necesito= bombillas/treinta;
+            bom_sin_emp= (bombillas)-(cajas_necesito*treinta);
+            pallets_necesito= cajas_necesito/(double)dieciseis;
+            redondeo_pallets= (int)(Math.ceil(pallets_necesito));
+
+
+           
+            resultado = "Para "+ bombillas+ " bombillas, se necesitan "+ cajas_necesito+ " cajas y "+ redondeo_pallets+" pallets. Se quedan "
+            + bom_sin_emp+ " bombillas sin empacar. Se empacará así: \n\n";
+
+            for(int pallet=1; pallet <=redondeo_pallets; pallet++){
+                resultado += "Pallet "+ pallet+ " --> ";
+
+                for(int caja=1; caja<= dieciseis && contador<=cajas_necesito; caja++){
+                    resultado+= "Caja"+contador;
+                    contador++;
+                    
+                    if (caja <= dieciseis - 1 && contador <= cajas_necesito)
+                        resultado+=", ";
+                    
+
+                }
+                resultado+="\n";
+            }
+            return resultado;
+
+        } 
+        catch (Exception e) {
+            return "error" +e;
+        }
+    }
 
 
     
@@ -111,7 +196,43 @@ public class App {
 
 
     */
+public static String Jugar_21(byte jugadores){
+        try {
+            String respuesta="";
+            byte ale1=0, ale2=0, ale3=0, aleatorio=0, suma=0;
+            final byte num_max=6, tres=3, diez=10, uno=1, dos=2, veinte_uno=21;
+            
 
+            respuesta += " Si saca 21 exactos: juego perfecto \n Si saca más de 21: se pasó \n Si saca menos de 21: faltaron puntos \n";
+
+            if(jugadores < uno && jugadores > num_max)
+                return "No se puede evaluar si hay menos de 1 jugador y mas de 6 jugadores";
+            else{
+                for(byte jug=1; jug <= jugadores; jug++){
+                    
+                    
+                    ale1=(byte)(Math.random()*(diez)+uno);
+                        ale2=(byte)(Math.random()*(diez)+uno);
+                        ale3=(byte)(Math.random()*(diez)+uno);
+                        suma=(byte)(ale1+ale2+ale3);
+
+                        respuesta+= "Jugador "+ jug + ", "+"puntos "+ suma;
+
+                    if (suma ==veinte_uno)
+                        respuesta+= " -- > juego perfecto \n";
+                    else if (suma > veinte_uno)
+                        respuesta+=" -- > se pasó \n";
+                    else 
+                        respuesta+= " -- > faltaron puntos \n";
+                }
+            }
+
+            return respuesta;
+
+        } catch (Exception e) {
+            return "error " +e;
+        }
+    }
 
 
 }
